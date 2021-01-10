@@ -28,6 +28,7 @@
     "webpack-cli": "^3.3.12"
   },
   "dependencies": {
+    "@types/qs": "^6.9.5",
     "qs": "^6.9.4"
   }
 }
