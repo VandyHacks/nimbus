@@ -12,8 +12,8 @@ interface Route {
  * Conditions are helper functions that when passed a request
  * will return a boolean for if that request uses
  * that method, header, etc..
- * 
- * Since slash commands will only send POST requests to the specified URL, we 
+ *
+ * Since slash commands will only send POST requests to the specified URL, we
  * only really need to handle POST requests for now
  */
 const Method = (method: string) => (req: Request) =>
@@ -56,21 +56,21 @@ export class Router {
     return this
   }
 
-//   get(url: string, handler: HandlerCallback) {
-//     return this.handle([Get, Path(url)], handler)
-//   }
+  //   get(url: string, handler: HandlerCallback) {
+  //     return this.handle([Get, Path(url)], handler)
+  //   }
 
   post(url: string, handler: HandlerCallback) {
     return this.handle([Post, Path(url)], handler)
   }
 
-//   patch(url: string, handler: HandlerCallback) {
-//     return this.handle([Patch, Path(url)], handler)
-//   }
+  //   patch(url: string, handler: HandlerCallback) {
+  //     return this.handle([Patch, Path(url)], handler)
+  //   }
 
-//   delete(url: string, handler: HandlerCallback) {
-//     return this.handle([Delete, Path(url)], handler)
-//   }
+  //   delete(url: string, handler: HandlerCallback) {
+  //     return this.handle([Delete, Path(url)], handler)
+  //   }
 
   all(handler: HandlerCallback) {
     return this.handle([], handler)
@@ -104,10 +104,9 @@ export class Router {
         return r.conditions(req)
       }
 
-      return r.conditions.every(c => c(req))
+      return r.conditions.every((c) => c(req))
     })
   }
 }
 
 export default Router
-
