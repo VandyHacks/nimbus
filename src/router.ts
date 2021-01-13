@@ -1,5 +1,3 @@
-// Credits: https://github.com/13rac1/cloudflare-ts-worker-template-router
-
 // Preliminary TS definitions
 type HandlerCallback = (req: Request) => Promise<Response> | Response
 type Condition = (req: Request) => boolean

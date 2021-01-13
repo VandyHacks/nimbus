@@ -1,6 +1,12 @@
-# ʕ •́؈•̀) `workers-typescript-template`
+# Nimbus
 
-A batteries included template for kick starting a TypeScript Cloudflare worker project.
+
+## Sample Usage
+`/shorten <path> <url>` -> `vhl.ink/path` goes to `url` provided.
+
+## Credits
+- [TypeScript Cloudflare Workers template](https://github.com/cloudflare/worker-typescript-template)
+- [TypeScript Wrangler Router Example](https://github.com/13rac1/cloudflare-ts-worker-template-router)
 
 ## 🔋 Getting Started
 
