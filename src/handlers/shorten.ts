@@ -16,7 +16,7 @@ const postNewUrl = (path: string, url: string): Promise<Response> => {
     body.set("path", path)
     const headers = new Headers({
         'Content-Type': 'application/x-www-form-urlencoded',
-        'x-preshared-key': ''
+        'x-preshared-key': SECRET_KEY
     })
     return fetch(fetchUrl, { body, headers })
 }
