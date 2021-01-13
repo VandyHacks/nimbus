@@ -1,5 +1,3 @@
-import qs from 'qs'
-
 // interface ShortenParams {
 //     path: string
 //     url: string
@@ -11,14 +9,11 @@ const parseShortenString = (text: string): RegExpMatchArray | null => {
 
 const postNewUrl = (path: string, url: string): Promise<Response> => {
   const fetchUrl = `https://vhl.ink`
-  const body = new URLSearchParams()
-  body.set('url', url)
-  body.set('path', path)
   const headers = new Headers({
     'Content-Type': 'application/x-www-form-urlencoded',
     'x-preshared-key': SECRET_KEY,
   })
-  return fetch(fetchUrl, { body, headers })
+  return fetch(fetchUrl + new URLSearchParams({url, path}), { headers })
 }
 
 const compact = (array: string[]) => array.filter((el) => el)
@@ -46,9 +41,8 @@ export const constructSlackMessage = (text: string) => {
  */
 export default async (request: Request) => {
   try {
-    const body = await request.text()
-    const queryParams: qs.ParsedQs = qs.parse(body)
-    const text = queryParams['text']
+    const queryParams = new URL(request.url).searchParams
+    const text = queryParams.get('text')
 
     // Ensure that we process a valid string
     if (typeof text === 'string') {
