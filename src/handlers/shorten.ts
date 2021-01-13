@@ -6,7 +6,7 @@ import qs from 'qs'
 // }
 
 const parseShortenString = (text: string): RegExpMatchArray | null => {
-  return text.match('(?<path>\w*)\s+(?<url>.*)')
+  return text.trim().match('(?<path>\w*)\s+(?<url>[\S]+)')
 }
 
 const postNewUrl = (path: string, url: string): Promise<Response> => {
