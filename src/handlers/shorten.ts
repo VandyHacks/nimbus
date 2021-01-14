@@ -1,21 +1,31 @@
 const shortenRegex = /(?<path>\w*)\s+(?<url>[\S]+)/;
-
+/**
+ * Handles separating text passed with the slash command into path and url
+ * 
+ * @param text - The text that came with the slash command, should look like <path> <url>
+ */
 const parseShortenString = (text: string): RegExpMatchArray | null => {
 	return text.trim().match(shortenRegex);
 };
 
+/**
+ * Sends POST to link shortening service
+ * 
+ * @param path – parsed path string
+ * @param url - parsed url string
+ */
 const postNewUrl = (path: string, url: string): Promise<Response> => {
-  const fetchUrl = `https://vhl.ink`;
-  // Using https://github.com/node-fetch/node-fetch#post-with-form-parameters
+	const fetchUrl = `https://vhl.ink`;
+	// Using https://github.com/node-fetch/node-fetch#post-with-form-parameters
 	const params = new URLSearchParams();
 	params.append('url', url);
-  params.append('path', path);
-  
+	params.append('path', path);
+
 	const headers = new Headers({
 		'Content-Type': 'application/x-www-form-urlencoded',
 		'x-preshared-key': SECRET_KEY,
-  });
-  
+	});
+
 	return fetch(`${fetchUrl}`, {
 		method: 'POST',
 		headers,
@@ -45,7 +55,7 @@ export const constructSlackMessage = (text: string) => {
  */
 export default async (request: Request) => {
 	try {
-    // https://api.slack.com/tutorials/slash-block-kit is more updated than the Cloudflare tutorial
+		// https://api.slack.com/tutorials/slash-block-kit is more updated than the Cloudflare tutorial
 		const formData = await request.formData();
 		const text = formData.get('text');
 
@@ -58,8 +68,8 @@ export default async (request: Request) => {
 			const url: string | undefined = params?.url;
 
 			if (path && url) {
-        const response = await postNewUrl(path, url);
-        const shortenerText = await response.text();
+				const response = await postNewUrl(path, url);
+				const shortenerText = await response.text();
 
 				const blocks = constructSlackMessage(shortenerText);
 

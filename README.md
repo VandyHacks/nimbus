@@ -16,6 +16,7 @@ You will need some secrets in order to make everything run properly. We use GitH
 
 - Cloudflare API key with Wrangler permissions, as [described here](https://support.cloudflare.com/hc/en-us/articles/200167836-Managing-API-Tokens-and-Keys).
 - The `SECRET_KEY` of the [URL shortener](https://github.com/VandyHacks/vhl.ink)
+- Slack Signing Secret to verify requests. Refer to the section in the [block kit documentation linked above](https://api.slack.com/tutorials/slash-block-kit).
 
 ### Development
 
@@ -24,7 +25,7 @@ You will need some secrets in order to make everything run properly. We use GitH
 
 ## Other information
 
-- Generally, we followed this [Slackbot on Workers tutorial](https://developers.cloudflare.com/workers/tutorials/build-a-slackbot) published by Cloudflare, but using TypeScript rather than vanilla JavaScript. Follow that tutorial to configure Slack's slash commands.
+- Generally, we followed this [Slackbot on Workers tutorial](https://developers.cloudflare.com/workers/tutorials/build-a-slackbot) published by Cloudflare, but using TypeScript rather than vanilla JavaScript. Some of its information on Slack's slash commands are deprecated – [an article updated in January 2020 on Slack's Block Kit is more up-to-date.](https://api.slack.com/tutorials/slash-block-kit)
 - [Slack's reference on slash commands](https://api.slack.com/interactivity/slash-commands) also is very useful.
 
 ## Sample slash command usage
