@@ -1,9 +1,9 @@
 // Preliminary TS definitions
-type HandlerCallback = (req: Request) => Promise<Response> | Response
-type Condition = (req: Request) => boolean
+type HandlerCallback = (req: Request) => Promise<Response> | Response;
+type Condition = (req: Request) => boolean;
 interface Route {
-  conditions: Condition | Array<Condition>
-  handler: HandlerCallback
+	conditions: Condition | Array<Condition>;
+	handler: HandlerCallback;
 }
 
 /**
@@ -15,9 +15,9 @@ interface Route {
  * only really need to handle POST requests for now
  */
 const Method = (method: string) => (req: Request) =>
-  req.method.toLowerCase() === method.toLowerCase()
-const Get = Method('get')
-const Post = Method('post')
+	req.method.toLowerCase() === method.toLowerCase();
+const Get = Method('get');
+const Post = Method('post');
 // const Patch = Method('patch')
 // const Delete = Method('delete')
 // const Head = Method('patch')
@@ -30,81 +30,81 @@ const Post = Method('post')
 // const Referrer = (host: string) => Header('referrer', host.toLowerCase())
 
 const Path = (regExp: string) => (req: Request) => {
-  const url = new URL(req.url)
-  const path = url.pathname
-  const match = path.match(regExp) || []
-  return match[0] === path
-}
+	const url = new URL(req.url);
+	const path = url.pathname;
+	const match = path.match(regExp) || [];
+	return match[0] === path;
+};
 
 /**
  * Router handles the logic of what handler is matched given conditions
  * for each request
  */
 export class Router {
-  routes: Array<Route>
-  constructor() {
-    this.routes = []
-  }
+	routes: Array<Route>;
+	constructor() {
+		this.routes = [];
+	}
 
-  handle(conditions: Condition | Array<Condition>, handler: HandlerCallback) {
-    this.routes.push({
-      conditions,
-      handler,
-    })
-    return this
-  }
+	handle(conditions: Condition | Array<Condition>, handler: HandlerCallback) {
+		this.routes.push({
+			conditions,
+			handler,
+		});
+		return this;
+	}
 
-  //   get(url: string, handler: HandlerCallback) {
-  //     return this.handle([Get, Path(url)], handler)
-  //   }
+	//   get(url: string, handler: HandlerCallback) {
+	//     return this.handle([Get, Path(url)], handler)
+	//   }
 
-  post(url: string, handler: HandlerCallback) {
-    return this.handle([Post, Path(url)], handler)
-  }
+	post(url: string, handler: HandlerCallback) {
+		return this.handle([Post, Path(url)], handler);
+	}
 
-  //   patch(url: string, handler: HandlerCallback) {
-  //     return this.handle([Patch, Path(url)], handler)
-  //   }
+	//   patch(url: string, handler: HandlerCallback) {
+	//     return this.handle([Patch, Path(url)], handler)
+	//   }
 
-  //   delete(url: string, handler: HandlerCallback) {
-  //     return this.handle([Delete, Path(url)], handler)
-  //   }
+	//   delete(url: string, handler: HandlerCallback) {
+	//     return this.handle([Delete, Path(url)], handler)
+	//   }
 
-  all(handler: HandlerCallback) {
-    return this.handle([], handler)
-  }
+	all(handler: HandlerCallback) {
+		return this.handle([], handler);
+	}
 
-  route(req: Request): Promise<Response> | Response {
-    const route = this.resolve(req)
+	route(req: Request): Promise<Response> | Response {
+		const route = this.resolve(req);
 
-    if (route) {
-      return route.handler(req)
-    }
+		if (route) {
+			return route.handler(req);
+		}
 
-    return new Response('resource not found', {
-      status: 404,
-      statusText: 'not found',
-      headers: {
-        'content-type': 'text/plain',
-      },
-    })
-  }
+		return new Response('resource not found', {
+			status: 404,
+			statusText: 'not found',
+			headers: {
+				'content-type': 'text/plain',
+			},
+		});
+	}
 
-  // resolve returns the matching route that returns true for
-  // all the conditions if any
-  resolve(req: Request) {
-    return this.routes.find((r: Route) => {
-      if (!r.conditions || (Array.isArray(r) && !r.conditions.length)) {
-        return true
-      }
+	// resolve returns the matching route that returns true for
+	// all the conditions if any
+	resolve(req: Request) {
+		return this.routes.find((r: Route) => {
+			if (!r.conditions || (Array.isArray(r) && !r.conditions.length)) {
+				return true;
+			}
 
-      if (typeof r.conditions === 'function') {
-        return r.conditions(req)
-      }
+			if (typeof r.conditions === 'function') {
+				return r.conditions(req);
+			}
 
-      return r.conditions.every((c) => c(req))
-    })
-  }
+			return r.conditions.every(c => c(req));
+		});
+	}
 }
 
-export default Router
+export default Router;

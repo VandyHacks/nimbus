@@ -8,25 +8,31 @@ Slackbot that works with slash commands and a [URL shortener](https://github.com
 
 `npm i`
 
-- Configure development and secret keys by running `wrangler login` and replacing the `account_id` in [wrangler.toml](./wrangler.toml) with the `account_id` that 
+- Configure development and secret keys by running `wrangler login` and replacing the `account_id` in [wrangler.toml](./wrangler.toml) with the `account_id` that
 
 ### Secrets
+
 You will need some secrets in order to make everything run properly. We use GitHub repository secrets, and you can use Cloudflare Wrangler Secrets for local secret development.
+
 - Cloudflare API key with Wrangler permissions, as [described here](https://support.cloudflare.com/hc/en-us/articles/200167836-Managing-API-Tokens-and-Keys).
 - The `SECRET_KEY` of the [URL shortener](https://github.com/VandyHacks/vhl.ink)
 
 ### Development
+
 - Begin development on your local machine with:
-`wrangler dev`
+  `wrangler dev`
 
 ## Other information
+
 - Generally, we followed this [Slackbot on Workers tutorial](https://developers.cloudflare.com/workers/tutorials/build-a-slackbot) published by Cloudflare, but using TypeScript rather than vanilla JavaScript. Follow that tutorial to configure Slack's slash commands.
 - [Slack's reference on slash commands](https://api.slack.com/interactivity/slash-commands) also is very useful.
 
 ## Sample slash command usage
+
 `/shorten <path> <url>` tells the link shortener to make it such that `vhl.ink/path` goes to `url` provided.
 
 ## Credits
+
 - [TypeScript Cloudflare Workers template](https://github.com/cloudflare/worker-typescript-template)
 - [TypeScript Wrangler Router Example](https://github.com/13rac1/cloudflare-ts-worker-template-router)
 
