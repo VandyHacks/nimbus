@@ -42,8 +42,9 @@ export const constructSlackMessage = (text: string) => {
  */
 export default async (request: Request) => {
 	try {
-		const queryParams = new URL(request.url).searchParams;
-		const text = queryParams.get('text');
+    // https://api.slack.com/tutorials/slash-block-kit is more updated than the Cloudflare tutorial
+		const formData = await request.formData();
+		const text = formData.get('text');
 
 		// Ensure that we process a valid string
 		if (typeof text === 'string') {
