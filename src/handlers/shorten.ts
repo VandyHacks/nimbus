@@ -1,8 +1,3 @@
-// interface ShortenParams {
-//     path: string
-//     url: string
-// }
-
 const shortenRegex = /(?<path>\w*)\s+(?<url>[\S]+)/;
 
 const parseShortenString = (text: string): RegExpMatchArray | null => {
@@ -21,7 +16,7 @@ const postNewUrl = (path: string, url: string): Promise<Response> => {
 		'x-preshared-key': SECRET_KEY,
   });
   
-	return fetch(`${fetchUrl}?${new URLSearchParams({ url, path }).toString()}`, {
+	return fetch(`${fetchUrl}`, {
 		method: 'POST',
 		headers,
 		body: params,
@@ -63,9 +58,10 @@ export default async (request: Request) => {
 			const url: string | undefined = params?.url;
 
 			if (path && url) {
-				const response = await postNewUrl(path, url);
+        const response = await postNewUrl(path, url);
+        const shortenerText = await response.text();
 
-				const blocks = constructSlackMessage(text);
+				const blocks = constructSlackMessage(shortenerText);
 
 				return new Response(
 					JSON.stringify({
