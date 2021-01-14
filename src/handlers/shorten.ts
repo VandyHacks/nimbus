@@ -10,13 +10,21 @@ const parseShortenString = (text: string): RegExpMatchArray | null => {
 };
 
 const postNewUrl = (path: string, url: string): Promise<Response> => {
-	const fetchUrl = `https://vhl.ink`;
+  const fetchUrl = `https://vhl.ink`;
+  // Using https://github.com/node-fetch/node-fetch#post-with-form-parameters
+	const params = new URLSearchParams();
+	params.append('url', url);
+  params.append('path', path);
+  
 	const headers = new Headers({
 		'Content-Type': 'application/x-www-form-urlencoded',
 		'x-preshared-key': SECRET_KEY,
-	});
+  });
+  
 	return fetch(`${fetchUrl}?${new URLSearchParams({ url, path }).toString()}`, {
+		method: 'POST',
 		headers,
+		body: params,
 	});
 };
 
@@ -56,7 +64,6 @@ export default async (request: Request) => {
 
 			if (path && url) {
 				const response = await postNewUrl(path, url);
-				const res = await response.json();
 
 				const blocks = constructSlackMessage(text);
 
