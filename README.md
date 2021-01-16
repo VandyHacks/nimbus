@@ -1,6 +1,6 @@
 # Nimbus
 
-Slackbot that works with slash commands and a [URL shortener](https://github.com/VandyHacks/vhl.ink).
+Slackbot that works with slash commands and a [URL shortener, namely vhl.ink](https://github.com/VandyHacks/vhl.ink).
 
 ## Setup
 
@@ -8,7 +8,8 @@ Slackbot that works with slash commands and a [URL shortener](https://github.com
 
 `npm i`
 
-- Configure development and secret keys by running `wrangler login` and replacing the `account_id` in [wrangler.toml](./wrangler.toml) with the `account_id` that
+- Read through [Cloudflare's Getting started guide](https://developers.cloudflare.com/workers/learning/getting-started) to begin setting up wrangler.
+- Configure development and secret keys by running `wrangler login` and replacing the `account_id` in [wrangler.toml](./wrangler.toml) with your `account_id` as mentioned in the getting started guide.
 
 ### Secrets
 
