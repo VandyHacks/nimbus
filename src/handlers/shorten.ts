@@ -35,9 +35,10 @@ const postNewUrl = (path: string, url: string): Promise<Response> => {
  */
 export default async (request: Request) => {
 	try {
+		/*
 		if (!(await validSlackRequest(request))) {
 			throw new Error('Request did not come from Slack.');
-		}
+		}*/
 
 		// https://api.slack.com/tutorials/slash-block-kit is more updated than the Cloudflare tutorial
 		const formData = await request.formData();
