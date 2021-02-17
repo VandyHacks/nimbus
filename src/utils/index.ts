@@ -15,11 +15,10 @@ export const validSlackRequest = async (request: Request): Promise<boolean> => {
 		const sigBasestring = `v0:${timestamp}:${requestBody}`;
 
 		// Hash the basestring using signing secret as key, taking hex digest of hash. Uses Cloudflare's Web Crypto https://developers.cloudflare.com/workers/runtime-apis/web-crypto
-
 		const encoder = new TextEncoder();
 		const msgUint8 = encoder.encode(sigBasestring);
+		
         // Refer to https://developer.mozilla.org/en-US/docs/Web/API/SubtleCrypto/digest#converting_a_digest_to_a_hex_string
-        
         const key = await crypto.subtle.importKey(
             "raw",
             encoder.encode(SLACK_SIGNING_SECRET),
