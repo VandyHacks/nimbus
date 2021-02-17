@@ -11,7 +11,7 @@ import {
  * @param url - parsed url string
  */
 const postNewUrl = (path: string, url: string): Promise<Response> => {
-	const fetchUrl = `https://vhl.ink`;
+	const fetchUrl = `https://vhlink.nisala.workers.dev/`;
 	// Using https://github.com/node-fetch/node-fetch#post-with-form-parameters
 	const params = new URLSearchParams();
 	params.append('url', url);
