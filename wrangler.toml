@@ -1,6 +1,6 @@
 name = "nimbus"
 type = "webpack"
-account_id = "39a76d640a29996bffbd58c36a537c2b"
+account_id = "566ccbfc5b9008e65ab6490435cda9a3"
 workers_dev = true
 route = ""
 zone_id = ""
