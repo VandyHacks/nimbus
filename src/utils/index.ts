@@ -30,10 +30,14 @@ export const validSlackRequest = async (request: Request): Promise<boolean> => {
 		)
 
 		if (version && slackSignature) {
-			const signatureUint8 = encoder.encode(slackSignature)
+			// Convert hex digest to Uint8Array
+			const signatureUint8 = new Uint8Array(slackSignature.length / 2);
+			for(let i = 0; i < slackSignature.length; i += 2) {
+				signatureUint8[i / 2] = parseInt(slackSignature.slice(i, i + 2), 16);
+			}
+
 			// We want to verify that hte slack signature matches what we hash with the key we made
 			const result = await crypto.subtle.verify({name: "HMAC", hash: "SHA-256"}, key, signatureUint8, msgUint8);
-			console.log(slackSignature)
 			return result;
 		}
 
