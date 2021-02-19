@@ -1,7 +1,7 @@
 export const validSlackRequest = async (request: Request): Promise<boolean> => {
 	try {
 		// Grab raw body
-		const requestBody = request.body;
+		const requestBody = await request.text();
 		const timestamp = request.headers.get('X-Slack-Request-Timestamp');
 
 		// Protect against replay attacks by checking if it's a request that's older than 5 minutes
