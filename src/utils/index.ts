@@ -3,6 +3,7 @@ export const validSlackRequest = async (request: Request): Promise<boolean> => {
 		// Grab raw body
 		const requestBody = await request.text();
 		const timestamp = request.headers.get('X-Slack-Request-Timestamp');
+		const [version, slackSignature] = request.headers.get('X-Slack-Signature')?.split("=") as String[];
 
 		// Protect against replay attacks by checking if it's a request that's older than 5 minutes
 		if (
@@ -12,7 +13,7 @@ export const validSlackRequest = async (request: Request): Promise<boolean> => {
 			throw new Error('The request is old.');
 		}
 
-		const sigBasestring = `v0:${timestamp}:${requestBody}`;
+		const sigBasestring = `${version}:${timestamp}:${requestBody}`;
 
 		// Hash the basestring using signing secret as key, taking hex digest of hash. Uses Cloudflare's Web Crypto https://developers.cloudflare.com/workers/runtime-apis/web-crypto
 
@@ -27,10 +28,6 @@ export const validSlackRequest = async (request: Request): Promise<boolean> => {
             false,
             ["verify"]
 		)
-
-		const signatureHeader = request.headers.get('X-Slack-Signature')?.split("=");
-		const version = signatureHeader?.[0]
-		const slackSignature = signatureHeader?.[1]
 
 		if (version && slackSignature) {
 			const signatureUint8 = encoder.encode(slackSignature)
