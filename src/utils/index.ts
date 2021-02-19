@@ -1,7 +1,7 @@
 export const validSlackRequest = async (request: Request): Promise<boolean> => {
 	try {
 		// Grab raw body
-		const requestBody = await request.text();
+		const requestBody = await request.clone().text(); // Have to clone since body can only be read once
 		const timestamp = request.headers.get('X-Slack-Request-Timestamp');
 		const [version, slackSignature] = request.headers.get('X-Slack-Signature')?.split("=") as String[];
 
