@@ -7,7 +7,7 @@ export const validSlackRequest = async (request: Request): Promise<boolean> => {
 
 		// Protect against replay attacks by checking if it's a request that's older than 5 minutes
 		if (
-			timestamp &&
+			!timestamp ||
 			Date.now() - new Date(timestamp).getTime() > 5 * 60 * 1000
 		) {
 			throw new Error('The request is old.');
