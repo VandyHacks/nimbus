@@ -11,7 +11,7 @@ import {
  * @param url - parsed url string
  */
 const postNewUrl = (path: string, url: string): Promise<Response> => {
-	const fetchUrl = `https://2ca88cf974be.ngrok.io`;
+	const fetchUrl = `https://vhl.ink`;
 	// Using https://github.com/node-fetch/node-fetch#post-with-form-parameters
 	const params = new URLSearchParams();
 	params.append('url', url);
@@ -19,7 +19,7 @@ const postNewUrl = (path: string, url: string): Promise<Response> => {
 
 	const headers = new Headers({
 		'Content-Type': 'application/x-www-form-urlencoded',
-		'x-preshared-key': "ROLLTIDE",
+		'x-preshared-key': SECRET_KEY,
 	});
 
 	return fetch(`${fetchUrl}`, {
@@ -35,10 +35,9 @@ const postNewUrl = (path: string, url: string): Promise<Response> => {
  */
 export default async (request: Request) => {
 	try {
-		/*
 		if (!(await validSlackRequest(request))) {
 			throw new Error('Request did not come from Slack.');
-		}*/
+		}
 
 		// https://api.slack.com/tutorials/slash-block-kit is more updated than the Cloudflare tutorial
 		const formData = await request.formData();
@@ -55,7 +54,6 @@ export default async (request: Request) => {
 			if (path && url) {
 				const response = await postNewUrl(path, url);
 				const shortenerText = await response.text();
-				console.log(shortenerText);
 
 				const blocks = constructSlackMessage(shortenerText);
 
