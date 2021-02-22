@@ -57,6 +57,16 @@ export const parseShortenString = (text: string): RegExpMatchArray | null => {
 	return text.trim().match(shortenRegex);
 };
 
+const deleteRegex = /(?<path>[\w\d-]+)\s+(?<url>[\S]+)\s+(?<key>[\S]+)/;
+/**
+ * Handles separating text passed with the slash command into path, url, and key
+ *
+ * @param text - The text that came with the slash command, should look like <path> <url> <key>
+ */
+export const parseDeleteString = (text: string): RegExpMatchArray | null => {
+	return text.trim().match(deleteRegex);
+};
+
 const compact = (array: string[]) => array.filter(el => el);
 
 export const constructSlackMessage = (text: string) => {

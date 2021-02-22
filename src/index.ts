@@ -1,6 +1,7 @@
 import Router from './router';
 import shorten from './handlers/shorten';
 import list from './handlers/list';
+import deletelink from './handlers/deletelink';
 
 import {
 	validSlackRequest,
@@ -21,18 +22,16 @@ async function route(request: Request) {
 
 		if (typeof text === 'string') {
 			const args = text.split(" ");
-			console.log("ARGS");
-			console.log(args);
 
-			if (args.length == 1) {
+			if (args.length == 1 && args[0] == "") {
 				return list();
 			} else if (args.length == 2) {
 				return shorten(request, text);
 			} else if (args.length == 3) {
-				// DELETE route
+				return deletelink(request, text)
 			}
 
-			throw new Error("Invalid number of arguments passed to /shorten.");
+			throw new Error("Invalid number/format of arguments passed to /shorten.");
 		}
 
 		throw new Error();
