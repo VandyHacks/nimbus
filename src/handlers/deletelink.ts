@@ -38,11 +38,11 @@ export default async (request: Request, text: string) => {
 		const params: { [key: string]: string } | undefined = parseDeleteString(
 			text,
 		)?.groups;
+		const deleteKW: string | undefined = params?.delete;
 		const path: string | undefined = params?.path;
-		const url: string | undefined = params?.url;
 		const key: string | undefined = params?.key;
 
-		if (path && url && key && key == SECRET_KEY) {
+		if (deleteKW && path && key && deleteKW == "delete" && key == SECRET_KEY) {
 			const response = await deleteOldUrl(path, url);
 			const shortenerText = await response.text();
 
@@ -57,7 +57,7 @@ export default async (request: Request, text: string) => {
 			);
 		}
 
-		throw new Error();
+		throw new Error("Parameter mismatch! Please ensure that the format is `/shorten delete <path> <key>`");
 	} catch (err) {
 		const errorText =
 			'The request failed, please ensure that you are supplying options in the format `/shorten <path> <url>`.';

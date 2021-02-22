@@ -57,7 +57,7 @@ export const parseShortenString = (text: string): RegExpMatchArray | null => {
 	return text.trim().match(shortenRegex);
 };
 
-const deleteRegex = /(?<path>[\w\d-]+)\s+(?<url>[\S]+)\s+(?<key>[\S]+)/;
+const deleteRegex = /(?<delete>[\w\d-]+)\s+(?<path>[\S]+)\s+(?<key>[\S]+)/;
 /**
  * Handles separating text passed with the slash command into path, url, and key
  *
