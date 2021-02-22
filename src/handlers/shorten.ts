@@ -19,7 +19,7 @@ const postNewUrl = (path: string, url: string): Promise<Response> => {
 
 	const headers = new Headers({
 		'Content-Type': 'application/x-www-form-urlencoded',
-		'x-preshared-key': SECRET_KEY,
+		'x-preshared-key': "ROLLTIDE",
 	});
 
 	return fetch(`${fetchUrl}`, {
@@ -55,6 +55,7 @@ export default async (request: Request) => {
 			if (path && url) {
 				const response = await postNewUrl(path, url);
 				const shortenerText = await response.text();
+				console.log(shortenerText);
 
 				const blocks = constructSlackMessage(shortenerText);
 

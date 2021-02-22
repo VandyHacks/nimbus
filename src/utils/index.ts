@@ -1,18 +1,19 @@
 export const validSlackRequest = async (request: Request): Promise<boolean> => {
 	try {
 		// Grab raw body
-		const requestBody = request.body;
+		const requestBody = await request.clone().text(); // Have to clone since body can only be read once
 		const timestamp = request.headers.get('X-Slack-Request-Timestamp');
+		const [version, slackSignature] = request.headers.get('X-Slack-Signature')?.split("=") as String[];
 
 		// Protect against replay attacks by checking if it's a request that's older than 5 minutes
 		if (
-			timestamp &&
+			!timestamp ||
 			Date.now() - new Date(timestamp).getTime() > 5 * 60 * 1000
 		) {
 			throw new Error('The request is old.');
 		}
 
-		const sigBasestring = `v0:${timestamp}:${requestBody}`;
+		const sigBasestring = `${version}:${timestamp}:${requestBody}`;
 
 		// Hash the basestring using signing secret as key, taking hex digest of hash. Uses Cloudflare's Web Crypto https://developers.cloudflare.com/workers/runtime-apis/web-crypto
 		const encoder = new TextEncoder();
@@ -27,15 +28,15 @@ export const validSlackRequest = async (request: Request): Promise<boolean> => {
             ["verify"]
 		)
 
-		const signatureHeader = request.headers.get('X-Slack-Signature')?.split("=");
-		const version = signatureHeader?.[0]
-		const slackSignature = signatureHeader?.[1]
-
 		if (version && slackSignature) {
-			const signatureUint8 = encoder.encode(slackSignature)
-			// We want to verify that hte slack signature matches what we hash with the key we made
+			// Convert hex digest to Uint8Array
+			const signatureUint8 = new Uint8Array(slackSignature.length / 2);
+			for(let i = 0; i < slackSignature.length; i += 2) {
+				signatureUint8[i / 2] = parseInt(slackSignature.slice(i, i + 2), 16);
+			}
+
+			// We want to verify that the slack signature matches what we hash with the key we made
 			const result = await crypto.subtle.verify({name: "HMAC", hash: "SHA-256"}, key, signatureUint8, msgUint8);
-			console.log(slackSignature)
 			return result;
 		}
 
@@ -46,7 +47,7 @@ export const validSlackRequest = async (request: Request): Promise<boolean> => {
 	}
 };
 
-const shortenRegex = /(?<path>\w*)\s+(?<url>[\S]+)/;
+const shortenRegex = /(?<path>[\w\d-]+)\s+(?<url>[\S]+)/;
 /**
  * Handles separating text passed with the slash command into path and url
  *

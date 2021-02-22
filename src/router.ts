@@ -1,5 +1,5 @@
 // Preliminary TS definitions
-type HandlerCallback = (req: Request) => Promise<Response> | Response;
+type HandlerCallback = (req: Request) => Promise<Response>;
 type Condition = (req: Request) => boolean;
 interface Route {
 	conditions: Condition | Array<Condition>;
