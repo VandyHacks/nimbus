@@ -21,16 +21,18 @@ async function route(request: Request) {
 
 		if (typeof text === 'string') {
 			const args = text.split(" ");
+			console.log("ARGS");
+			console.log(args);
 
 			if (args.length == 0) {
-				return list(request, text);
+				return list();
 			} else if (args.length == 2) {
 				return shorten(request, text);
 			} else if (args.length == 3) {
 				// DELETE route
 			}
 
-			throw new Error();
+			throw new Error("Invalid number of arguments passed to /shorten.");
 		}
 
 		throw new Error();

@@ -25,7 +25,7 @@ const getListUrl = (): Promise<Response> => {
  * Handles shortening links. Expects the text to look like:
  * `/shorten <path> <url>`, and result in `vhl.ink/path`
  */
-export default async (request: Request, text: string) => {
+export default async () => {
 	try {
 		const response = await getListUrl();
 		const shortenerText = await response.text();
