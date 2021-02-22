@@ -9,11 +9,10 @@ import {
  * @param path – parsed path string
  * @param url - parsed url string
  */
-const deleteOldUrl = (path: string, url: string): Promise<Response> => {
+const deleteOldUrl = (path: string): Promise<Response> => {
 	const fetchUrl = `https://vhl.ink`;
 	// Using https://github.com/node-fetch/node-fetch#post-with-form-parameters
 	const params = new URLSearchParams();
-	params.append('url', url);
 	params.append('path', path);
 
 	const headers = new Headers({
@@ -43,7 +42,7 @@ export default async (request: Request, text: string) => {
 		const key: string | undefined = params?.key;
 
 		if (deleteKW && path && key && deleteKW == "delete" && key == SECRET_KEY) {
-			const response = await deleteOldUrl(path, url);
+			const response = await deleteOldUrl(path);
 			const shortenerText = await response.text();
 
 			const blocks = constructSlackMessage(shortenerText);
