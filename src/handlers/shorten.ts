@@ -1,5 +1,4 @@
 import {
-	validSlackRequest,
 	parseShortenString,
 	constructSlackMessage,
 } from '../utils';
@@ -33,42 +32,31 @@ const postNewUrl = (path: string, url: string): Promise<Response> => {
  * Handles shortening links. Expects the text to look like:
  * `/shorten <path> <url>`, and result in `vhl.ink/path`
  */
-export default async (request: Request) => {
+export default async (request: Request, text: string) => {
 	try {
-		if (!(await validSlackRequest(request))) {
-			throw new Error('Request did not come from Slack.');
-		}
-
 		// https://api.slack.com/tutorials/slash-block-kit is more updated than the Cloudflare tutorial
-		const formData = await request.formData();
-		const text = formData.get('text');
+		const params: { [key: string]: string } | undefined = parseShortenString(
+			text,
+		)?.groups;
+		const path: string | undefined = params?.path;
+		const url: string | undefined = params?.url;
 
-		// Ensure that we process a valid string
-		if (typeof text === 'string') {
-			const params: { [key: string]: string } | undefined = parseShortenString(
-				text,
-			)?.groups;
-			const path: string | undefined = params?.path;
-			const url: string | undefined = params?.url;
+		if (path && url) {
+			const response = await postNewUrl(path, url);
+			const shortenerText = await response.text();
 
-			if (path && url) {
-				const response = await postNewUrl(path, url);
-				const shortenerText = await response.text();
+			const blocks = constructSlackMessage(shortenerText);
 
-				const blocks = constructSlackMessage(shortenerText);
-
-				return new Response(
-					JSON.stringify({
-						blocks,
-						response_type: 'in_channel',
-					}),
-					{ headers: { 'Content-type': 'application/json' } },
-				);
-			}
-
-			throw new Error();
+			return new Response(
+				JSON.stringify({
+					blocks,
+					response_type: 'in_channel',
+				}),
+				{ headers: { 'Content-type': 'application/json' } },
+			);
 		}
-		throw new Error('Expected a string to be included in request.');
+
+		throw new Error();
 	} catch (err) {
 		const errorText =
 			'The request failed, please ensure that you are supplying options in the format `/shorten <path> <url>`.';
