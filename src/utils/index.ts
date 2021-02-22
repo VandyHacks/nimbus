@@ -48,7 +48,7 @@ export const validSlackRequest = async (request: Request): Promise<boolean> => {
 	}
 };
 
-const shortenRegex = /(?<path>\w*)\s+(?<url>[\S]+)/;
+const shortenRegex = /(?<path>[\w\d-]+)\s+(?<url>[\S]+)/;
 /**
  * Handles separating text passed with the slash command into path and url
  *
