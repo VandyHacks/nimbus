@@ -24,7 +24,7 @@ async function route(request: Request) {
 			console.log("ARGS");
 			console.log(args);
 
-			if (args.length == 0) {
+			if (args.length == 1) {
 				return list();
 			} else if (args.length == 2) {
 				return shorten(request, text);
