@@ -10,10 +10,7 @@ import {
  * @param url - parsed url string
  */
 const deleteOldUrl = (path: string): Promise<Response> => {
-	const fetchUrl = `https://vhl.ink`;
-	// Using https://github.com/node-fetch/node-fetch#post-with-form-parameters
-	const params = new URLSearchParams();
-	params.append('path', path);
+	const fetchUrl = `https://vhl.ink/${path}`;
 
 	const headers = new Headers({
 		'Content-Type': 'application/x-www-form-urlencoded',
@@ -22,8 +19,7 @@ const deleteOldUrl = (path: string): Promise<Response> => {
 
 	return fetch(`${fetchUrl}`, {
 		method: 'DELETE',
-		headers,
-		body: params,
+		headers
 	});
 };
 
