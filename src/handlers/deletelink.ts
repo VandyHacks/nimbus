@@ -39,7 +39,7 @@ export default async (request: Request, text: string) => {
 
 		if (deleteKW && path && key && deleteKW == "delete" && key == SECRET_KEY) {
 			await deleteOldUrl(path);
-			return new Response("Deleted!");
+			return new Response(`${path} deleted!`);
 		}
 
 		throw new Error("Parameter mismatch! Please ensure that the format is `/shorten delete <path> <key>`");
