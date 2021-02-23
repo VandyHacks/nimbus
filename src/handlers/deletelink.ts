@@ -43,13 +43,7 @@ export default async (request: Request, text: string) => {
 
 			const blocks = constructSlackMessage(shortenerText);
 
-			return new Response(
-				JSON.stringify({
-					blocks,
-					response_type: 'in_channel',
-				}),
-				{ headers: { 'Content-type': 'application/json' } },
-			);
+			return new Response("Deleted!");
 		}
 
 		throw new Error("Parameter mismatch! Please ensure that the format is `/shorten delete <path> <key>`");
