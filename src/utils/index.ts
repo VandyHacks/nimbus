@@ -73,3 +73,22 @@ export const constructSlackMessage = (text: string) => {
 		},
 	];
 };
+
+export const sendBotStatusMessage = async (text: string): Promise<Response> => {
+	const resObject = {
+		text,
+		response_type: 'in_channel',
+	};
+
+	const botStatusResp = await fetch(SLACK_WEBHOOK_BOT_STATUS, {
+		method: 'POST',
+		body: JSON.stringify(resObject),
+		headers: { 'Content-Type': 'application/json' },
+	});
+
+	if (botStatusResp.ok) {
+		return botStatusResp;
+	} else {
+		throw new Error('Unable to send bot status message');
+	}
+};
