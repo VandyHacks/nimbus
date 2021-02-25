@@ -2,6 +2,7 @@ import {
 	validSlackRequest,
 	parseShortenString,
 	constructSlackMessage,
+	sendBotStatusMessage,
 } from '../utils';
 
 /**
@@ -42,6 +43,7 @@ export default async (request: Request) => {
 		// https://api.slack.com/tutorials/slash-block-kit is more updated than the Cloudflare tutorial
 		const formData = await request.formData();
 		const text = formData.get('text');
+		const userName = formData.get('user_name');
 
 		// Ensure that we process a valid string
 		if (typeof text === 'string') {
@@ -56,6 +58,7 @@ export default async (request: Request) => {
 				const shortenerText = await response.text();
 
 				const blocks = constructSlackMessage(shortenerText);
+				await sendBotStatusMessage(`${userName} shortened ${url} to https://vhl.link/${path}`);
 
 				return new Response(
 					JSON.stringify({
