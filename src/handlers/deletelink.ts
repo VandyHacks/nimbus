@@ -37,7 +37,7 @@ export default async (request: Request, text: string) => {
 		const path: string | undefined = params?.path;
 		const key: string | undefined = params?.key;
 
-		if (deleteKW && path && key && deleteKW == "delete" && key == SECRET_KEY) {
+		if (deleteKW === "delete" && path && key === SECRET_KEY) {
 			await deleteOldUrl(path);
 			return new Response(`${path} deleted!`);
 		}

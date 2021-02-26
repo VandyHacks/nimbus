@@ -23,11 +23,11 @@ async function route(request: Request) {
 		if (typeof text === 'string') {
 			const args = text.split(" ");
 
-			if (args.length == 1 && args[0] == "") {
+			if (args.length === 1 && !args[0]) {
 				return list();
-			} else if (args.length == 2) {
+			} else if (args.length === 2) {
 				return shorten(request, text);
-			} else if (args.length == 3) {
+			} else if (args.length === 3) {
 				return deletelink(request, text)
 			}
 
@@ -39,8 +39,7 @@ async function route(request: Request) {
 		const errorText =
 			'The request failed; please ensure that you are supplying options correctly.';
 		return new Response(err.message || errorText);
-	}
-	
+	}	
 }
 
 async function handleRequest(request: Request): Promise<Response> {
