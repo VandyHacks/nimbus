@@ -47,6 +47,7 @@ export const validSlackRequest = async (request: Request): Promise<boolean> => {
 	}
 };
 
+// Regex to match /shorten <path> <url>
 const shortenRegex = /(?<path>[\w\d-]+)\s+(?<url>[\S]+)/;
 /**
  * Handles separating text passed with the slash command into path and url
@@ -57,6 +58,7 @@ export const parseShortenString = (text: string): RegExpMatchArray | null => {
 	return text.trim().match(shortenRegex);
 };
 
+// Regex to match /shorten delete <path> <key>
 const deleteRegex = /(?<delete>[\w\d-]+)\s+(?<path>[\S]+)\s+(?<key>[\S]+)/;
 /**
  * Handles separating text passed with the slash command into path, url, and key
