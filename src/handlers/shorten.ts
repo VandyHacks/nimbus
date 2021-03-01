@@ -1,6 +1,7 @@
 import {
 	parseShortenString,
 	constructSlackMessage,
+	sendBotStatusMessage,
 } from '../utils';
 
 /**
@@ -40,12 +41,16 @@ export default async (request: Request, text: string) => {
 		)?.groups;
 		const path: string | undefined = params?.path;
 		const url: string | undefined = params?.url;
+    
+		const formData = await request.formData();
+		const userName = formData.get('user_name');
 
 		if (path && url) {
 			const response = await postNewUrl(path, url);
 			const shortenerText = await response.text();
 
 			const blocks = constructSlackMessage(shortenerText);
+			await sendBotStatusMessage(`${userName} shortened ${url} to https://vhl.link/${path}`);
 
 			return new Response(
 				JSON.stringify({
