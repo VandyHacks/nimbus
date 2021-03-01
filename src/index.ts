@@ -20,6 +20,11 @@ async function route(request: Request) {
 		const formData = await request.formData();
 		const text = formData.get('text');
 
+		/**
+		 * One arg (just /shorten): just list
+		 * Two args (/shorten <path> <url>): shorten link
+		 * Three args (/shorten delete <path> <key>): delete link
+		 */
 		if (typeof text === 'string') {
 			const args = text.split(" ");
 

@@ -3,7 +3,7 @@ import {
 } from '../utils';
 
 /**
- * Sends POST to link shortening service
+ * Sends GET to link shortening service to get links.
  *
  * @param path – parsed path string
  * @param url - parsed url string
@@ -22,8 +22,8 @@ const getListUrl = (): Promise<Response> => {
 };
 
 /**
- * Handles shortening links. Expects the text to look like:
- * `/shorten <path> <url>`, and result in `vhl.ink/path`
+ * Handles getting link list.
+ * `/shorten`, and result is list of links.
  */
 export default async () => {
 	try {

@@ -4,7 +4,7 @@ import {
 } from '../utils';
 
 /**
- * Sends POST to link shortening service
+ * Sends DELETE to link to delete it.
  *
  * @param path – parsed path string
  * @param url - parsed url string
@@ -24,8 +24,8 @@ const deleteOldUrl = (path: string): Promise<Response> => {
 };
 
 /**
- * Handles shortening links. Expects the text to look like:
- * `/shorten <path> <url>`, and result in `vhl.ink/path`
+ * Handles deleting links. Expects the text to look like:
+ * `/shorten delete <path> <key>`, and deletes link when run.
  */
 export default async (request: Request, text: string) => {
 	try {
