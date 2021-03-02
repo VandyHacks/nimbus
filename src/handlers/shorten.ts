@@ -49,7 +49,7 @@ export default async (formData: FormData, text: string) => {
 			const shortenerText = await response.text();
 
 			const blocks = constructSlackMessage(shortenerText);
-			await sendBotStatusMessage(`${userName} shortened ${url} to https://vhl.link/${path}`);
+			await sendBotStatusMessage(`${userName} shortened ${url} to https://vhl.ink/${path}`);
 
 			return new Response(
 				JSON.stringify({
