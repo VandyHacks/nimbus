@@ -33,7 +33,7 @@ async function route(request: Request) {
 			} else if (args.length === 2) {
 				return shorten(formData, text);
 			} else if (args.length === 3) {
-				return deletelink(request, text)
+				return deletelink(formData, text)
 			}
 
 			throw new Error("Invalid number/format of arguments passed to /shorten.");
