@@ -1,5 +1,6 @@
 import {
 	constructSlackMessage,
+	FETCH_URL
 } from '../utils';
 
 /**
@@ -9,13 +10,12 @@ import {
  * @param url - parsed url string
  */
 const getListUrl = (): Promise<Response> => {
-	const fetchUrl = `https://vhl.ink`;
 	const headers = new Headers({
 		'Content-Type': 'application/x-www-form-urlencoded',
 		'x-preshared-key': SECRET_KEY,
 	});
 
-	return fetch(`${fetchUrl}`, {
+	return fetch(`${FETCH_URL}`, {
 		method: 'GET',
 		headers
 	});

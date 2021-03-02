@@ -1,3 +1,5 @@
+export const FETCH_URL = 'https://vhl.ink';
+
 export const validSlackRequest = async (request: Request): Promise<boolean> => {
 	try {
 		// Grab raw body

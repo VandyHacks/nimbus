@@ -1,6 +1,7 @@
 import {
 	parseDeleteString,
 	constructSlackMessage,
+	FETCH_URL,
 } from '../utils';
 
 /**
@@ -10,7 +11,7 @@ import {
  * @param url - parsed url string
  */
 const deleteOldUrl = (path: string): Promise<Response> => {
-	const fetchUrl = `https://vhl.ink/${path}`;
+	const fetchUrl = `${FETCH_URL}/${path}`;
 
 	const headers = new Headers({
 		'Content-Type': 'application/x-www-form-urlencoded',
