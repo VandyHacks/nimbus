@@ -1,6 +1,7 @@
 import {
 	parseDeleteString,
 	constructSlackMessage,
+	sendBotStatusMessage
 	FETCH_URL,
 } from '../utils';
 
@@ -28,7 +29,7 @@ const deleteOldUrl = (path: string): Promise<Response> => {
  * Handles deleting links. Expects the text to look like:
  * `/shorten delete <path> <key>`, and deletes link when run.
  */
-export default async (request: Request, text: string) => {
+export default async (formData: FormData, text: string) => {
 	try {
 		// https://api.slack.com/tutorials/slash-block-kit is more updated than the Cloudflare tutorial
 		const params: { [key: string]: string } | undefined = parseDeleteString(
@@ -38,8 +39,11 @@ export default async (request: Request, text: string) => {
 		const path: string | undefined = params?.path;
 		const key: string | undefined = params?.key;
 
+		const userName = formData.get('user_name');
+
 		if (deleteKW === "delete" && path && key === SECRET_KEY) {
 			await deleteOldUrl(path);
+			await sendBotStatusMessage(`${userName} deleted ${FETCH_URL}/${path}`);
 			return new Response(`${path} deleted!`);
 		}
 
