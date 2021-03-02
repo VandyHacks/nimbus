@@ -31,7 +31,7 @@ async function route(request: Request) {
 			if (args.length === 1 && !args[0]) {
 				return list();
 			} else if (args.length === 2) {
-				return shorten(request, text);
+				return shorten(formData, text);
 			} else if (args.length === 3) {
 				return deletelink(request, text)
 			}

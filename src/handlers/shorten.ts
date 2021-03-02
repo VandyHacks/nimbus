@@ -33,7 +33,7 @@ const postNewUrl = (path: string, url: string): Promise<Response> => {
  * Handles shortening links. Expects the text to look like:
  * `/shorten <path> <url>`, and result in `vhl.ink/path`
  */
-export default async (request: Request, text: string) => {
+export default async (formData: FormData, text: string) => {
 	try {
 		// https://api.slack.com/tutorials/slash-block-kit is more updated than the Cloudflare tutorial
 		const params: { [key: string]: string } | undefined = parseShortenString(
@@ -42,7 +42,6 @@ export default async (request: Request, text: string) => {
 		const path: string | undefined = params?.path;
 		const url: string | undefined = params?.url;
     
-		const formData = await request.formData();
 		const userName = formData.get('user_name');
 
 		if (path && url) {
