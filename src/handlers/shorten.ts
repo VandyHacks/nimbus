@@ -2,6 +2,7 @@ import {
 	parseShortenString,
 	constructSlackMessage,
 	sendBotStatusMessage,
+	FETCH_URL,
 } from '../utils';
 
 /**
@@ -11,7 +12,6 @@ import {
  * @param url - parsed url string
  */
 const postNewUrl = (path: string, url: string): Promise<Response> => {
-	const fetchUrl = `https://vhl.ink`;
 	// Using https://github.com/node-fetch/node-fetch#post-with-form-parameters
 	const params = new URLSearchParams();
 	params.append('url', url);
@@ -22,7 +22,7 @@ const postNewUrl = (path: string, url: string): Promise<Response> => {
 		'x-preshared-key': SECRET_KEY,
 	});
 
-	return fetch(`${fetchUrl}`, {
+	return fetch(`${FETCH_URL}`, {
 		method: 'POST',
 		headers,
 		body: params,
@@ -49,7 +49,7 @@ export default async (formData: FormData, text: string) => {
 			const shortenerText = await response.text();
 
 			const blocks = constructSlackMessage(shortenerText);
-			await sendBotStatusMessage(`${userName} shortened ${url} to https://vhl.ink/${path}`);
+			await sendBotStatusMessage(`${userName} shortened ${url} to ${FETCH_URL}/${path}`);
 
 			return new Response(
 				JSON.stringify({
