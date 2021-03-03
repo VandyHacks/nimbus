@@ -20,7 +20,7 @@ export default async () => {
 		);
 	} catch (err) {
 		const errorText =
-			'The request failed, please try again in a minute`.';
+			'The request failed, please yell in #dev.';
 		return new Response(err.message || errorText);
 	}
 };
