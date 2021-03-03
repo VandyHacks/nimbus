@@ -29,7 +29,7 @@ async function route(request: Request) {
 		if (typeof text === 'string') {
 			const args = text.split(" ");
 
-			if (args.length === 1 && !args[0]) {
+			if (args.length === 1 && (!args[0] || args[0] === "help") {
 				return help();
 			} else if (args.length === 1 && args[0] === "list") {
 				return list();
