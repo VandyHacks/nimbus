@@ -30,7 +30,7 @@ export default async () => {
 		const response = await getListUrl();
 		const shortenerText = await response.text();
 
-		const blocks = constructSlackMessage(shortenerText);
+		const blocks = constructSlackMessage("```\n" +  shortenerText + "\n```");
 
 		return new Response(
 			JSON.stringify({
