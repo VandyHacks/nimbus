@@ -1,7 +1,7 @@
 import {
 	parseDeleteString,
 	constructSlackMessage,
-	sendBotStatusMessage
+	sendBotStatusMessage,
 	FETCH_URL,
 } from '../utils';
 
