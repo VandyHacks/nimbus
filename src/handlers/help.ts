@@ -5,7 +5,7 @@ import {
 export default async () => {
 	try {
 		const blocks = constructSlackMessage(`
-        \`/shorten\`: show this help text
+        \`/shorten help\`: show this help text
         \`/shorten list\`: list all shortened URLs
         \`/shorten <path> <url>\`: shorten \`<url>\` to https://vhl.ink/\`<path>\`
         \`/shorten delete <path> <key>\`: delete <path> (requires secret \`<key>\`)
