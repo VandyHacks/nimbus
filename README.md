@@ -29,9 +29,12 @@ You will need some secrets in order to make everything run properly. We use GitH
 - Generally, we followed this [Slack bot on Workers tutorial](https://developers.cloudflare.com/workers/tutorials/build-a-slackbot) published by Cloudflare, but using TypeScript rather than vanilla JavaScript. Some of its information on Slack's slash commands are deprecated – [an article updated in January 2020 on Slack's Block Kit is more up-to-date.](https://api.slack.com/tutorials/slash-block-kit)
 - [Slack's reference on slash commands](https://api.slack.com/interactivity/slash-commands) also is very useful.
 
-## Sample slash command usage
+## Slash command usage
 
-`/shorten <path> <url>` tells the link shortener to make it such that `vhl.ink/path` goes to `url` provided.
+- `/shorten` or `/shorten help` prints out slash command usage information.
+- `/shorten <path> <url>` tells the link shortener to make `vhl.ink/path` go to `url`.
+- `/shorten list` lists out all slash commands.
+- `/shorten delete <path> <key>` deletes `vhl.ink/path`, given that the correct secret `key` is passed in.
 
 ## Credits
 
