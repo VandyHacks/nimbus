@@ -2,6 +2,7 @@ import Router from './router';
 import shorten from './handlers/shorten';
 import list from './handlers/list';
 import deletelink from './handlers/deletelink';
+import help from './handlers/help';
 
 import {
 	validSlackRequest,
@@ -28,7 +29,9 @@ async function route(request: Request) {
 		if (typeof text === 'string') {
 			const args = text.split(" ");
 
-			if (args.length === 1 && !args[0]) {
+			if (args.length === 1 && (!args[0] || args[0] === "help")) {
+				return help();
+			} else if (args.length === 1 && args[0] === "list") {
 				return list();
 			} else if (args.length === 2) {
 				return shorten(formData, text);
