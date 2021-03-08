@@ -33,7 +33,7 @@ You will need some secrets in order to make everything run properly. We use GitH
 
 - `/shorten` or `/shorten help` prints out slash command usage information.
 - `/shorten <path> <url>` tells the link shortener to make `vhl.ink/path` go to `url`.
-- `/shorten list` lists out all slash commands.
+- `/shorten list` lists out all existing link paths.
 - `/shorten delete <path> <key>` deletes `vhl.ink/path`, given that the correct secret `key` is passed in.
 
 ## Credits
