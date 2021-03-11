@@ -42,7 +42,10 @@ export default async (formData: FormData, text: string) => {
 		const userName = formData.get('user_name');
 
 		if (deleteKW === "delete" && path && key === SECRET_KEY) {
-			await deleteOldUrl(path);
+			const response = await deleteOldUrl(path);
+			const text = response.text();
+			if(response.status != 200) throw new Error(`vhl.ink Error: ${text}`);
+
 			await sendBotStatusMessage(`${userName} deleted ${FETCH_URL}/${path}`);
 			return new Response(`${path} deleted!`);
 		}
