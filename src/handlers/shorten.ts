@@ -47,10 +47,9 @@ export default async (formData: FormData, text: string) => {
 		if (path && url) {
 			const response = await postNewUrl(path, url);
 			const shortenerText = await response.text();
-			if(response.status != 201) throw new Error(`vhl.ink Error: ${shortenerText}`);
+			if (response.status == 201) await sendBotStatusMessage(`${userName} shortened ${url} to ${FETCH_URL}/${path}`);
 
 			const blocks = constructSlackMessage(shortenerText);
-			await sendBotStatusMessage(`${userName} shortened ${url} to ${FETCH_URL}/${path}`);
 
 			return new Response(
 				JSON.stringify({

@@ -43,11 +43,9 @@ export default async (formData: FormData, text: string) => {
 
 		if (deleteKW === "delete" && path && key === SECRET_KEY) {
 			const response = await deleteOldUrl(path);
-			const text = response.text();
-			if(response.status != 200) throw new Error(`vhl.ink Error: ${text}`);
-
-			await sendBotStatusMessage(`${userName} deleted ${FETCH_URL}/${path}`);
-			return new Response(`${path} deleted!`);
+			const deleteText = response.text();
+			if (response.status == 200) await sendBotStatusMessage(`${userName} deleted ${FETCH_URL}/${path}`);
+			return new Response(`${deleteText}`);
 		}
 
 		throw new Error("Parameter mismatch! Please ensure that the format is `/shorten delete <path> <key>`");
